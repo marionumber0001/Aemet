@@ -24,6 +24,7 @@ public class JudasPriest extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -78,6 +79,8 @@ public class JudasPriest extends JFrame {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
+		
+		table = new JTable();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -97,6 +100,7 @@ public class JudasPriest extends JFrame {
 						.addComponent(btnBuscar_Municipio)
 						.addComponent(btnBuscar_All))
 					.addContainerGap(219, Short.MAX_VALUE))
+				.addComponent(table, GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -115,7 +119,8 @@ public class JudasPriest extends JFrame {
 						.addComponent(lblNewLabel_2)
 						.addComponent(btnBuscar_All)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(292, Short.MAX_VALUE))
+					.addGap(19)
+					.addComponent(table, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

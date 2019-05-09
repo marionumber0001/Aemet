@@ -27,24 +27,81 @@ public class CheckXML {
 	}
 
 	public ArrayList<Date> LeerFechas() {
-
 		ArrayList<Date> resultado = new ArrayList<Date>();
+		NodeList lista = this.doc.getElementsByTagName("prediccion");
+		Element element = (Element) lista.item(0);
+		lista = element.getElementsByTagName("dia");
 
-		NodeList list = this.doc.getElementsByTagName("prediccion");
-
-		Element element = (Element) list.item(0);
-		list = element.getElementsByTagName("dia");
-
-		for (int i = 0; i < list.getLength(); i++) {
-			element = (Element) list.item(i);
+		for (int i = 0; i < lista.getLength(); i++) {
+			element = (Element) lista.item(i);
 			resultado.add(ParseFecha(element.getAttribute("fecha"), "yyyy-MM-dd"));
-
 		}
 		return resultado;
 	}
 
-	public ArrayList<Double> LeerTemperatura(Date fecha) {
-		return null;
+	public String LeerTemperatura(Date fecha) {
+		Element element = LeerDia(fecha);
+
+		if (LeerDia(fecha) == null)
+			return null;
+
+		NodeList lista = element.getElementsByTagName("temperatura");
+		element = (Element) lista.item(0);
+
+		String maximaFM = element.getElementsByTagName("maxima").item(0).getTextContent();
+		String minimaFM = element.getElementsByTagName("minima").item(0).getTextContent();
+
+		return maximaFM + " / " + minimaFM;
+
+	}
+
+	public String LeerChanceOfPrecipitation(Date datum) {
+		Element element = LeerDia(datum);
+
+		if (LeerDia(datum) == null)
+			return null;
+
+		return element.getElementsByTagName("prob_precipitacion").item(0).getTextContent();
+
+	}
+
+	public String LeerEstadoCielo(Date datum) {
+		Element element = LeerDia(datum);
+
+		if (LeerDia(datum) == null)
+			return null;
+
+		return ((Element) element.getElementsByTagName("estado_cielo").item(0)).getAttribute("descripcion");
+	}
+
+	public String LeerCotaNieve(Date datum) {
+		Element element = LeerDia(datum);
+
+		if (LeerDia(datum) == null)
+			return null;
+
+		return element.getElementsByTagName("cota_nieve_prov").item(0).getTextContent();
+	}
+
+	private Element LeerDia(Date dia) {
+		NodeList lista = this.doc.getElementsByTagName("prediccion");
+		Element element = (Element) lista.item(0);
+		lista = element.getElementsByTagName("dia");
+
+		boolean find = false;
+		for (int i = 0; i < lista.getLength(); i++) {
+			element = (Element) lista.item(i);
+
+			if ((ParseFecha(element.getAttribute("fecha"), "yyyy-MM-dd")).equals(dia)) {
+				find = true;
+				break;
+			}
+		}
+
+		if (!find)
+			return null;
+
+		return element;
 	}
 
 	private static Date ParseFecha(String fecha, String formato) {
